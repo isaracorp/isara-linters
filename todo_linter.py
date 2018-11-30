@@ -25,9 +25,17 @@ limitations under the License.
 import re
 import sys
 
-TODO_PATTERN = re.compile('^.*(FIXME|TODO|XXX).*$', re.IGNORECASE)  # Find TODO lines.
-VALID_TODO_PATTERN = re.compile('^.*(FIXME|TODO|XXX).*(T[0-9]+).*$')  # Is it a valid TODO line?
-DISABLE_TODO_PATTERN = re.compile('^.*@todo_linter: disable.*$')  # Disable TODO linting on this file?
+# Our Coding Guidelines document prescribes these TODO formats:
+#
+# /* TODO(T666): Use "*" here for concatenation operator.
+#  */
+# // TODO(T1024): change this to use relations.
+#
+# FIXME and XXX are synonyms for TODO, although they generally don't show up
+# in our code base.
+TODO_PATTERN = re.compile(r'^\s*((/\*)|(//))\s+(FIXME|TODO|XXX).*$', re.IGNORECASE)  # Find TODO lines.
+VALID_TODO_PATTERN = re.compile(r'^\s*((/\*)|(//))\s+(FIXME|TODO|XXX)\(T\d+\):\s.*$')  # Is it a valid TODO line?
+DISABLE_TODO_PATTERN = re.compile(r'^.*@todo_linter: disable.*$')  # Disable TODO linting on this file?
 
 
 def check_todos(lines):
