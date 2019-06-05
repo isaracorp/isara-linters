@@ -3,11 +3,11 @@
 <!-- @todo_linter: disable -->
 @file todo_linter.py
 
-@brief ISARA Radiate Security Suite toolkit's TODO comment linter.
+@brief ISARA's TODO comment linter.
 
 All TODO comments must be accompanied by a Task ID.
 
-@copyright Copyright 2017-2018, ISARA Corporation, All Rights Reserved.
+@copyright Copyright (C) 2017-2019, ISARA Corporation, All Rights Reserved.
 
 @license Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -25,16 +25,17 @@ limitations under the License.
 import re
 import sys
 
-# Our Coding Guidelines document prescribes these TODO formats:
+# Our Coding Guidelines prescribe these TODO formats:
 #
 # /* TODO(T666): Use "*" here for concatenation operator.
 #  */
 # // TODO(T1024): change this to use relations.
 #
-# FIXME and XXX are synonyms for TODO, although they generally don't show up
-# in our code base.
+# "TODO(Txxx) -" is also allowed, as is "TODO(Txxx) blah blah blah".
+#
+# FIXME and XXX are synonyms for TODO.
 TODO_PATTERN = re.compile(r'^\s*((/\*)|(//))\s+(FIXME|TODO|XXX).*$', re.IGNORECASE)  # Find TODO lines.
-VALID_TODO_PATTERN = re.compile(r'^\s*((/\*)|(//))\s+(FIXME|TODO|XXX)\(T\d+\):\s.*$')  # Is it a valid TODO line?
+VALID_TODO_PATTERN = re.compile(r'^\s*((/\*)|(//))\s+(FIXME|TODO|XXX)\(T\d+\)(:|\s-)?\s.*$')  # Is it a valid TODO line?
 DISABLE_TODO_PATTERN = re.compile(r'^.*@todo_linter: disable.*$')  # Disable TODO linting on this file?
 
 
