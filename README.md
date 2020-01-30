@@ -8,13 +8,15 @@ our website: [www.isara.com](https://www.isara.com).
 You can also contact us directly at
 [quantumsafe@isara.com](mailto:quantumsafe@isara.com).
 
-Copyright &copy; 2017-2018 ISARA Corporation, All Rights Reserved.
+Copyright &copy; 2017-2020 ISARA Corporation, All Rights Reserved.
 
 ## Custom Linters
 
 Our development team uses various tools to help ensure the quality of our code.
 These include some simple linters that get called when submitting code reviews.
 
+* `doxygen_file_linter.py` - Ensure that the [Doxygen](http://doxygen.nl/)
+  `@file` directive matches the actual name of the file it's in.
 * `linelength_linter.py` - Ensure that code lines are <= 132 characters, block
   comments in code are <= 80 characters, and text lines are <= 80 characters.
   Lines that are long because of URLs are allowed. Only `http:`, `https:`, and
@@ -31,7 +33,7 @@ a line with:
 ```
 
 It uses that syntax because we're using
-[Doxygen](https://www.stack.nl/~dimitri/doxygen/) for our API docs. Also, that
+[Doxygen](http://doxygen.nl/) for our API docs. Also, that
 only exists so the linter won't complain when it's linting itself. `;-)`
 
 ### System Requirements
@@ -66,6 +68,15 @@ tool (used with
                 "(.*\\.txt$)"
             ]
         },
+        "doxygen_file": {
+            "type": "script-and-regex",
+            "script-and-regex.script": "./tools/doxygen_file_linter.py",
+            "script-and-regex.regex": "/^(?P<severity>Warning): (?P<line>\\d+): (?P<message>.*)$/m",
+            "include": [
+                "(.*\\.c$)",
+                "(.*\\.h$)"
+            ]
+        },
         "todo_check": {
             "type": "script-and-regex",
             "script-and-regex.script": "./tools/todo_linter.py",
@@ -82,13 +93,14 @@ tool (used with
 ```
 
 That checks line lengths on `.c`, `.h`, `.py`, `.md`, and `.txt` files, and
-checks for valid TODO items on `.c`, `.h`, `.py`, and `.txt` files.
+checks for valid TODO items on `.c`, `.h`, `.py`, and `.txt` files. The `.c`
+and `.h` files also have their Doxygen `@file` directives checked.
 
 ## License
 
 See the `LICENSE` file for details:
 
-> Copyright 2016-2018 ISARA Corporation
+> Copyright 2016-2020 ISARA Corporation
 >
 > Licensed under the Apache License, Version 2.0 (the "License");
 > you may not use this file except in compliance with the License.

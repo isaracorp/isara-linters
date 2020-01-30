@@ -3,11 +3,11 @@
 <!-- @todo_linter: disable -->
 @file todo_linter.py
 
-@brief ISARA's TODO comment linter.
+@brief ISARA Radiate Security Suite toolkit's TODO comment linter.
 
 All TODO comments must be accompanied by a Task ID.
 
-@copyright Copyright (C) 2017-2019, ISARA Corporation, All Rights Reserved.
+@copyright Copyright (C) 2017-2020, ISARA Corporation, All Rights Reserved.
 
 @license Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -25,17 +25,21 @@ limitations under the License.
 import re
 import sys
 
-# Our Coding Guidelines prescribe these TODO formats:
+# https://confluence.isaracorp.com:8443/display/RD/Comments#Comments-TODOComments
+# prescribes these TODO formats:
 #
 # /* TODO(T666): Use "*" here for concatenation operator.
 #  */
 # // TODO(T1024): change this to use relations.
 #
-# "TODO(Txxx) -" is also allowed, as is "TODO(Txxx) blah blah blah".
+# "TODO(Txxx) -" is also allowed, as is "TODO(Txxx) blah blah blah". Blame Mark.
 #
-# FIXME and XXX are synonyms for TODO.
-TODO_PATTERN = re.compile(r'^\s*((/\*)|(//))\s+(FIXME|TODO|XXX).*$', re.IGNORECASE)  # Find TODO lines.
-VALID_TODO_PATTERN = re.compile(r'^\s*((/\*)|(//))\s+(FIXME|TODO|XXX)\(T\d+\)(:|\s-)?\s.*$')  # Is it a valid TODO line?
+# Python "#" comments are also handled properly, thanks to Justin.
+#
+# TODOs in the middle/end of /* ... */ or Python ''' ... ''' blocks will not
+# be caught, please pay attention during code reviews. ;-)
+TODO_PATTERN = re.compile(r'^\s*((/\*)|(//)|(#))\s+(FIXME|TODO|XXX).*$', re.IGNORECASE)  # Find TODO lines.
+VALID_TODO_PATTERN = re.compile(r'^\s*((/\*)|(//)|(#))\s+(FIXME|TODO|XXX)\(T\d+\)(:|\s-)?\s.*$')  # Is it a valid TODO line?
 DISABLE_TODO_PATTERN = re.compile(r'^.*@todo_linter: disable.*$')  # Disable TODO linting on this file?
 
 

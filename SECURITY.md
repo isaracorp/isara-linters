@@ -1,6 +1,6 @@
 # ISARA Linter Security Issues
 ISARA Corporation <info@isara.com>
-Copyright (C) 2017-2018 ISARA Corporation, All Rights Reserved.
+Copyright (C) 2017-2020 ISARA Corporation, All Rights Reserved.
 
 ## Reporting Security Issues
 

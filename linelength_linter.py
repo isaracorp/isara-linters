@@ -8,7 +8,7 @@ Code lines must be <= 132 characters, except block comments must be <= 80
 characters. Text lines must be <= 80 characters. If there's a URL on the line,
 the length is ignored, because some URLs are just too dang long.
 
-@copyright Copyright 2017-2018, ISARA Corporation, All Rights Reserved.
+@copyright Copyright (C) 2017-2020, ISARA Corporation, All Rights Reserved.
 
 @license Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -26,7 +26,8 @@ limitations under the License.
 import re
 import sys
 
-URL_PATTERN = re.compile('^.*(http|https|mailto):.*$')  # Find a common URL.
+URL_PATTERN = re.compile(r'^.*(http|https|mailto):.*$')  # Find a common URL.
+TITLE_PATTERN = re.compile(r'^={1,6}\s(.+)\s={1,6}$')
 
 COMMENT_LENGTH = 80  # Max line length for block comments or text files.
 CODE_LENGTH = 132  # Max line length for code.
@@ -43,8 +44,10 @@ def check_text_lengths(lines):
     for line in lines:
         line = line.rstrip()  # This will let evil end-of-line whitespace people get away with it!
 
-        if len(line) > COMMENT_LENGTH and not URL_PATTERN.match(line):
-            print('Warning: {0}: Line too long ({1}/{2})'.format(line_count, len(line), COMMENT_LENGTH))
+        if len(line) > COMMENT_LENGTH:
+            if not URL_PATTERN.match(line) and not TITLE_PATTERN.match(line):
+                print('Warning: {0}: Line too long ({1}/{2})'.format(line_count, len(line), COMMENT_LENGTH))
+
         line_count += 1
 
 
