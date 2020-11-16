@@ -15,6 +15,8 @@ Copyright &copy; 2017-2020 ISARA Corporation, All Rights Reserved.
 Our development team uses various tools to help ensure the quality of our code.
 These include some simple linters that get called when submitting code reviews.
 
+* `copyright_linter.py` - Ensure that the [Doxygen](http://doxygen.nl/)
+  `@copyright` directive includes the current year.
 * `doxygen_file_linter.py` - Ensure that the [Doxygen](http://doxygen.nl/)
   `@file` directive matches the actual name of the file it's in.
 * `linelength_linter.py` - Ensure that code lines are <= 132 characters, block
@@ -86,6 +88,19 @@ tool (used with
                 "(.*\\.c)",
                 "(.*\\.py)",
                 "(.*\\.txt)"
+            ]
+        },
+        "copyright_check": {
+            "type": "script-and-regex",
+            "script-and-regex.script": "./tools/copyright_linter.py",
+            "script-and-regex.regex": "/^(?P<severity>Warning): (?P<line>\\d+): (?P<message>.*)$/m",
+            "include": [
+                "(.*\\.h)",
+                "(.*\\.c)",
+                "(.*\\.py)"
+            ],
+            "exclude": [
+                "(3rdparty/.*$)"
             ]
         }
     }
